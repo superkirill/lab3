@@ -13,46 +13,76 @@ class TestChords(unittest.TestCase):
     def test_chord_A(self):
         generator = Generator(0)
         self.assertEqual(generator.get_chord('A'), ('A', 'C#', 'E'))
-
     def test_chord_A_sharp(self):
         generator = Generator(0)
         self.assertEqual(generator.get_chord('A#'), ('A#', 'D', 'F'))
-
     def test_chord_B(self):
         generator = Generator(0)
         self.assertEqual(generator.get_chord('B'), ('B', 'D#', 'F#'))
-
     def test_chord_C(self):
         generator = Generator(0)
         self.assertEqual(generator.get_chord('C'), ('C', 'E', 'G'))
-
     def test_chord_C_sharp(self):
         generator = Generator(0)
         self.assertEqual(generator.get_chord('C#'), ('C#', 'F', 'G#'))
-
     def test_chord_D(self):
         generator = Generator(0)
         self.assertEqual(generator.get_chord('D'), ('D', 'F#', 'A'))
-
     def test_chord_D_sharp(self):
         generator = Generator(0)
         self.assertEqual(generator.get_chord('D#'), ('D#', 'G', 'A#'))
-
     def test_chord_E(self):
         generator = Generator(0)
         self.assertEqual(generator.get_chord('E'), ('E', 'G#', 'B'))
-
     def test_chord_F(self):
         generator = Generator(0)
         self.assertEqual(generator.get_chord('F'), ('F', 'A', 'C'))
-
     def test_chord_F_sharp(self):
         generator = Generator(0)
         self.assertEqual(generator.get_chord('F#'), ('F#', 'A#', 'C#'))
-
     def test_chord_G(self):
         generator = Generator(0)
         self.assertEqual(generator.get_chord('G'), ('G', 'B', 'D'))
+    def test_chord_G_sharp(self):
+        generator = Generator(0)
+        self.assertEqual(generator.get_chord('G#'), ('G#', 'C', 'D#'))
+
+    def test_chord_A_minor(self):
+        generator = Generator(0)
+        self.assertEqual(generator.get_chord('A', 'minor'), ('A', 'C', 'E'))
+    def test_chord_A_sharp_minor(self):
+        generator = Generator(0)
+        self.assertEqual(generator.get_chord('A#', 'minor'), ('A#', 'C#', 'F'))
+    def test_chord_B_minor(self):
+        generator = Generator(0)
+        self.assertEqual(generator.get_chord('B', 'minor'), ('B', 'D', 'F#'))
+    def test_chord_C_minor(self):
+        generator = Generator(0)
+        self.assertEqual(generator.get_chord('C', 'minor'), ('C', 'D#', 'G'))
+    def test_chord_C_sharp_minor(self):
+        generator = Generator(0)
+        self.assertEqual(generator.get_chord('C#', 'minor'), ('C#', 'E', 'G#'))
+    def test_chord_D_minor(self):
+        generator = Generator(0)
+        self.assertEqual(generator.get_chord('D', 'minor'), ('D', 'F', 'A'))
+    def test_chord_D_sharp_minor(self):
+        generator = Generator(0)
+        self.assertEqual(generator.get_chord('D#', 'minor'), ('D#', 'F#', 'A#'))
+    def test_chord_E_minor(self):
+        generator = Generator(0)
+        self.assertEqual(generator.get_chord('E', 'minor'), ('E', 'G', 'B'))
+    def test_chord_F_minor(self):
+        generator = Generator(0)
+        self.assertEqual(generator.get_chord('F', 'minor'), ('F', 'G#', 'C'))
+    def test_chord_F_sharp_minor(self):
+        generator = Generator(0)
+        self.assertEqual(generator.get_chord('F#', 'minor'), ('F#', 'A', 'C#'))
+    def test_chord_G_minor(self):
+        generator = Generator(0)
+        self.assertEqual(generator.get_chord('G', 'minor'), ('G', 'A#', 'D'))
+    def test_chord_G_sharp_minor(self):
+        generator = Generator(0)
+        self.assertEqual(generator.get_chord('G#', 'minor'), ('G#', 'B', 'D#'))
 
 if __name__ == '__main__':
     unittest.main()
