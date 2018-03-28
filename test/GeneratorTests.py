@@ -84,5 +84,15 @@ class TestChords(unittest.TestCase):
         generator = Generator(0)
         self.assertEqual(generator.get_chord('G#', 'minor'), ('G#', 'B', 'D#'))
 
+    def test_non_existent_type_of_chord(self):
+        generator = Generator(0)
+        self.failUnlessRaises(NotImplementedError, generator.get_chord, 'G#', 'superchord')
+
+    def test_non_existent_chord_root(self):
+        generator = Generator(0)
+        self.failUnlessRaises(NotImplementedError, generator.get_chord, 'X#', 'major')
+
+
+
 if __name__ == '__main__':
     unittest.main()
