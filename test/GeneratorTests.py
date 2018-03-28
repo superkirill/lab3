@@ -100,5 +100,42 @@ class TestPlay(unittest.TestCase):
         generator = Generator(0)
         generator.play(chord=('C', 'E', 'G'))
 
+    def test_play_chord_instead_of_note(self):
+        generator = Generator(0)
+        self.failUnlessRaises(ValueError, generator.play, note=('C', 'E', 'G'))
+
+    def test_play_note_instead_of_chord(self):
+        generator = Generator(0)
+        self.failUnlessRaises(ValueError, generator.play, chord='C')
+
+    def test_play_incorrect_note(self):
+        generator = Generator(0)
+        self.failUnlessRaises(ValueError, generator.play, note='losi1')
+
+    def test_play_incorrect_chord(self):
+        generator = Generator(0)
+        self.failUnlessRaises(ValueError, generator.play, chord='losi2')
+
+    def test_play_in_negative_octave(self):
+        generator = Generator(0)
+        self.failUnlessRaises(ValueError, generator.play, note='C', octave=-5)
+
+    def test_play_in_large_octave(self):
+        generator = Generator(0)
+        self.failUnlessRaises(ValueError, generator.play, note='C', octave=500)
+
+    def test_play_in_incorrect_octave(self):
+        generator = Generator(0)
+        self.failUnlessRaises(ValueError, generator.play, note='C', octave='losi3')
+
+    def test_play_with_negative_duration(self):
+        generator = Generator(0)
+        self.failUnlessRaises(ValueError, generator.play, note='C', duration=-5)
+
+    def test_play_with_incorrect_duration(self):
+        generator = Generator(0)
+        self.failUnlessRaises(ValueError, generator.play, note='C', octave='losilosilosi')
+
+
 if __name__ == '__main__':
     unittest.main()
