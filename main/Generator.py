@@ -1,4 +1,5 @@
 import pygame.midi
+import time
 
 class Generator():
     """
@@ -57,10 +58,9 @@ class Generator():
             11: 'B',
         }
         pygame.midi.init()
-        player = pygame.midi.Output(0, 0)
-        player.set_instrument(instrument)
-        del player
-        pygame.midi.quit()
+        self.player = pygame.midi.Output(0, 0)
+        self.player.set_instrument(instrument)
+
 
     def get_chord(self, root='C', type='major'):
         """
@@ -98,9 +98,33 @@ class Generator():
         else:
             raise NotImplementedError
 
+    def play(self, note=None, chord=None, octave=3, duration=0.5):
+        """
+            Play a chord or a note
+
+            Keyword arguments:
+                note -- capital letter from A to G, (default None)
+                type -- tuple representing a chord to be played (default None)
+                duration -- double representing amount of time during which the note
+                    or the chord should sound
+        """
+
+        if note is not None:
+            if type(note) is tuple:
+                raise ValueError
+            self.player.note_on(self.intervals[note] + octave * 12, 120)
+            time.sleep(duration)
+            self.player.note_off(self.intervals[note] + octave * 12, 120)
+        elif chord is not None:
+            for chord_note in chord:
+                self.player.note_on(self.intervals[chord_note] + octave * 12, 120)
+            time.sleep(duration)
+            for chord_note in chord:
+                self.player.note_off(self.intervals[chord_note] + octave * 12, 120)
+
+
 def main():
     generator = Generator(0)
-    print(generator.get_chord('D', 'major'))
 
 if __name__ == '__main__':
     main()

@@ -94,11 +94,11 @@ class TestChords(unittest.TestCase):
 class TestPlay(unittest.TestCase):
     def test_play_note(self):
         generator = Generator(0)
-        generator.play('C')
+        generator.play(note='C')
 
     def test_play_chord(self):
         generator = Generator(0)
-        generator.play(('C', 'E', 'G'))
+        generator.play(chord=('C', 'E', 'G'))
 
 if __name__ == '__main__':
     unittest.main()
