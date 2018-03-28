@@ -1,9 +1,15 @@
 import unittest
 from main.Generator import *
 
-class MyTestCase(unittest.TestCase):
-    def test_generator_initialization(self):
+class TestInitialization(unittest.TestCase):
+    def test_empty(self):
         generator = Generator()
+    def test_negative(self):
+        generator = Generator(-5)
+    def test_large(self):
+        generator = Generator(5)
+    def test_ok(self):
+        generator = Generator(50)
 
 
 if __name__ == '__main__':
