@@ -90,7 +90,7 @@ class TestChords(unittest.TestCase):
 
     def test_non_existent_chord_root(self):
         generator = Generator(0)
-        self.failUnlessRaises(NotImplementedError, generator.get_chord, 'X#', 'major')
+        self.failUnlessRaises(ValueError, generator.get_chord, 'X#', 'major')
 
 
 
