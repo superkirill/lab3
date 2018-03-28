@@ -87,12 +87,18 @@ class TestChords(unittest.TestCase):
     def test_non_existent_type_of_chord(self):
         generator = Generator(0)
         self.failUnlessRaises(NotImplementedError, generator.get_chord, 'G#', 'superchord')
-
     def test_non_existent_chord_root(self):
         generator = Generator(0)
         self.failUnlessRaises(ValueError, generator.get_chord, 'X#', 'major')
 
+class TestPlay(unittest.TestCase):
+    def test_play_note(self):
+        generator = Generator(0)
+        generator.play('C')
 
+    def test_play_chord(self):
+        generator = Generator(0)
+        generator.play(('C', 'E', 'G'))
 
 if __name__ == '__main__':
     unittest.main()
