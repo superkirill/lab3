@@ -84,6 +84,18 @@ class Generator():
                 fifth -= 12
             fifth = self.notes[fifth]
             return (root, third, fifth)
+        elif type == 'minor':
+            third = self.intervals[root] + 3
+            if third >= 12:
+                third -= 12
+            third = self.notes[third]
+            fifth = self.intervals[root] + 7
+            if fifth >= 12:
+                fifth -= 12
+            fifth = self.notes[fifth]
+            return (root, third, fifth)
+        else:
+            raise NotImplementedError
 
 def main():
     generator = Generator(0)
