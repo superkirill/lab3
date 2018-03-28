@@ -109,13 +109,19 @@ class Generator():
                     or the chord should sound
         """
 
+        if not isinstance(octave, int) or octave < 0 or octave > 7:
+            raise ValueError
+        if not isinstance(duration, float) or duration < 0:
+            raise ValueError
         if note is not None:
-            if type(note) is tuple:
+            if not isinstance(note, str) or note not in self.intervals.keys():
                 raise ValueError
             self.player.note_on(self.intervals[note] + octave * 12, 120)
             time.sleep(duration)
             self.player.note_off(self.intervals[note] + octave * 12, 120)
         elif chord is not None:
+            if not isinstance(chord, tuple):
+                raise ValueError
             for chord_note in chord:
                 self.player.note_on(self.intervals[chord_note] + octave * 12, 120)
             time.sleep(duration)
