@@ -129,10 +129,37 @@ class TestPlay(unittest.TestCase):
 class TestMelody(unittest.TestCase):
     def test_get_melody(self):
         generator = Generator(0)
-        progression = [generator.get_chord('E', 'minor'),
-                       generator.get_chord('D', 'major'),
-                       generator.get_chord('G', 'major'),
-                       generator.get_chord('C', 'major')]
+        chord_dur = [1, 0.2]
+        pause = [0.15, 1]
+        progression = [(generator.get_chord('E', 'minor'), chord_dur[0]),
+                       pause[0],
+                       (generator.get_chord('E', 'minor'), chord_dur[1]),
+                       pause[1],
+                       (generator.get_chord('E', 'minor'), chord_dur[0]),
+                       pause[0],
+                       (generator.get_chord('E', 'minor'), chord_dur[1]),
+                       pause[1],
+                       (generator.get_chord('D', 'major'), chord_dur[0]),
+                       pause[0],
+                       (generator.get_chord('D', 'major'), chord_dur[1]),
+                       pause[1],
+                       (generator.get_chord('G', 'major'), chord_dur[0]),
+                       pause[0],
+                       (generator.get_chord('G', 'major'), chord_dur[1]),
+                       pause[1],
+                       (generator.get_chord('C', 'major'), chord_dur[0]),
+                       pause[0],
+                       (generator.get_chord('C', 'major'), chord_dur[1]),
+                       pause[1],
+                       (generator.get_chord('E', 'minor'), chord_dur[0]),
+                       pause[0],
+                       (generator.get_chord('E', 'minor'), chord_dur[1]),
+                       pause[1],
+                       (generator.get_chord('E', 'minor'), chord_dur[0]),
+                       pause[0],
+                       (generator.get_chord('E', 'minor'), chord_dur[1]),
+                       pause[1],
+                       ]
         generator.get_melody(progression)
 
 if __name__ == '__main__':
