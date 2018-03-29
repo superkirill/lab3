@@ -184,5 +184,10 @@ class TestPerformTrack(unittest.TestCase):
         melody = [('C', 1), ('G', 0.5)]
         self.assertEqual(generator.perform(melody), True)
 
+    def test_perfrom_wrong_track(self):
+        generator = Generator(0)
+        self.failUnlessRaises(ValueError, generator.perform, 123)
+
+
 if __name__ == '__main__':
     unittest.main()
