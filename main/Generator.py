@@ -210,6 +210,8 @@ class Generator():
             Return:
                 True if notes or chords are played successfully
         """
+        if not (isinstance(to_perform, list) or isinstance(to_perform, tuple)):
+            raise ValueError
         for element in to_perform:
             if isinstance(element, int) or isinstance(element, float):
                 time.sleep(element)
