@@ -130,7 +130,7 @@ class Generator():
             for chord_note in chord:
                 self.player.note_off(self.intervals[chord_note] + octave * 12, 120)
 
-    def get_melody(self, progression, max_notes=20):
+    def get_melody(self, progression=None, max_notes=20):
         """
             Generate melody for a give chord progression
 
@@ -143,11 +143,14 @@ class Generator():
                 list of tuples and doubles, where each tuple contains a note and duration
                     and each double represents a pause
         """
+        if not (isinstance(progression, list) or isinstance(progression, tuple)):
+            raise ValueError
         melody = []
         number_of_notes_and_pauses = random.randint(1, max_notes)
         round_duration = 0
         chord_timings = []
         chords = []
+        # Calculate chord timings
         for element in progression:
             if isinstance(element, float) or isinstance(element, int):
                 round_duration += element
@@ -158,6 +161,7 @@ class Generator():
         current_duration = 0
         elements = 0
         while current_duration < round_duration and elements < number_of_notes_and_pauses:
+            # Add a note or a pause to the melody
             is_note = random.randint(0, 1)
             if is_note == 0:
                 dur = rd.uniform(0.0, 2.0, size=1)[0]
@@ -166,6 +170,7 @@ class Generator():
                 current_duration += dur
             else:
                 chord = 0
+                # Determine currently sounding chord
                 while chord<len(chords)-1:
                     if chord_timings[chord][1] < current_duration < chord_timings[chord+1][0]:
                         chord += 1
@@ -174,16 +179,16 @@ class Generator():
                         chord += 1
                 case = random.randint(1, 3)
                 root = chords[chord][0]
-                # Add root
+                # Add root to the melody
                 if case == 1:
                     note = root
-                # Add the third
+                # Add the third to the melody
                 elif case == 2:
                     note = self.intervals[root] + 5
                     if note >= 12:
                         note -= 12
                     note = self.notes[note]
-                # Add the fifth
+                # Add the fifth to the melody
                 elif case == 3:
                     note = self.intervals[root] + 7
                     if note >= 12:
