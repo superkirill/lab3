@@ -178,6 +178,11 @@ class TestMelody(unittest.TestCase):
         generator = Generator(0)
         self.failUnlessRaises(ValueError, max_notes=-1000)
 
+class TestPerformTrack(unittest.TestCase):
+    def test_perform_track(self):
+        generator = Generator(0)
+        melody = [('C', 1), ('G', 0.5)]
+        self.assertEqual(generator.perform(melody), True)
 
 if __name__ == '__main__':
     unittest.main()
