@@ -200,6 +200,25 @@ class Generator():
                 melody.append((note, dur))
         return melody
 
+    def perform(self, to_perform=[]):
+        """
+            Play a sequence of notes or chords
+
+            Keyword arguments:
+                to_perform -- a list of tuples and doubles where each tuple represents a chord (a note) and
+                    its duration, and doubles represent pauses between chords (notes)
+            Return:
+                True if notes or chords are played successfully
+        """
+        for element in to_perform:
+            if isinstance(element, int) or isinstance(element, float):
+                time.sleep(element)
+            else:
+                if isinstance(element[0], tuple):
+                    self.play(chord=element[0], duration=element[1])
+                else:
+                    self.play(note=element[0], duration=element[1])
+        return True
 
 def main():
     generator = Generator(0)
