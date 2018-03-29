@@ -3,6 +3,7 @@ import time
 import random
 import sys, os
 import subprocess
+import ast
 from numpy import random as rd
 
 class Generator():
@@ -237,10 +238,11 @@ class Generator():
                 True -- if played successfully
         """
         for track in args:
-            dir_path = os.path.dirname(os.path.realpath(__file__)).replace("\\","\\\\")
-            subprocess.Popen("python \"%s\Generator.py\" %s" % (dir_path, track),
+            dir_path = os.path.dirname(os.path.realpath(__file__))
+            subprocess.Popen("python \"%s/Generator.py\" \"%s\"" % (dir_path, track),
                          shell=True,
                          stdin=None, stdout=None, stderr=None, close_fds=True)
+            time.sleep(0.1)
 
 def main():
     generator = Generator(0)
@@ -275,7 +277,13 @@ def main():
                    (generator.get_chord('E', 'minor'), chord_dur[1]),
                    pause[1],
                    ]
-    melody = generator.get_melody(progression, 20)
+    melody = generator.get_melody(progression, 40)
+    generator.mix(progression, melody)
 
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) > 1:
+        generator = Generator(0)
+        track = ast.literal_eval(sys.argv[1])
+        generator.perform(track)
+    else:
+        main()
