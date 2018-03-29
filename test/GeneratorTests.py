@@ -129,7 +129,7 @@ class TestPlay(unittest.TestCase):
 class TestMelody(unittest.TestCase):
     def test_get_melody(self):
         generator = Generator(0)
-        progression = [generator.get_chord('E', 'minir'),
+        progression = [generator.get_chord('E', 'minor'),
                        generator.get_chord('D', 'major'),
                        generator.get_chord('G', 'major'),
                        generator.get_chord('C', 'major')]

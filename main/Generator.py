@@ -1,5 +1,7 @@
 import pygame.midi
 import time
+import random
+from numpy import random as rd
 
 class Generator():
     """
@@ -111,7 +113,7 @@ class Generator():
 
         if not isinstance(octave, int) or octave < 0 or octave > 7:
             raise ValueError
-        if not isinstance(duration, float) or duration < 0:
+        if not (isinstance(duration, float) or isinstance(duration, int)) or duration < 0:
             raise ValueError
         if note is not None:
             if not isinstance(note, str) or note not in self.intervals.keys():
@@ -128,9 +130,106 @@ class Generator():
             for chord_note in chord:
                 self.player.note_off(self.intervals[chord_note] + octave * 12, 120)
 
+    def get_melody(self, progression, max_notes=20):
+        """
+            Generate melody for a give chord progression
+
+            Keyword arguments:
+                progression -- list of tuples and doubles where each tuple represents a chord and
+                    its duration, and doubles represent pauses between chords
+
+                max_notes -- maximum allowed numbers of notes and pauses in a melody (int > 0)
+            Return:
+                list of tuples and doubles, where each tuple contains a note and duration
+                    and each double represents a pause
+        """
+        melody = []
+        number_of_notes_and_pauses = random.randint(1, max_notes)
+        round_duration = 0
+        chord_timings = []
+        chords = []
+        for element in progression:
+            if isinstance(element, float) or isinstance(element, int):
+                round_duration += element
+            elif isinstance(element, tuple):
+                chord_timings.append([round_duration, round_duration + element[1]])
+                chords.append(element[0])
+                round_duration += element[1]
+        current_duration = 0
+        elements = 0
+        while current_duration < round_duration and elements < number_of_notes_and_pauses:
+            is_note = random.randint(0, 1)
+            if is_note == 0:
+                dur = rd.uniform(0.0, 2.0, size=1)[0]
+                melody.append(dur)
+                elements += 1
+                current_duration += dur
+            else:
+                chord = 0
+                while chord<len(chords)-1:
+                    if chord_timings[chord][1] < current_duration < chord_timings[chord+1][0]:
+                        chord += 1
+                        break
+                    else:
+                        chord += 1
+                case = random.randint(1, 3)
+                root = chords[chord][0]
+                # Add root
+                if case == 1:
+                    note = root
+                # Add the third
+                elif case == 2:
+                    note = self.intervals[root] + 5
+                    if note >= 12:
+                        note -= 12
+                    note = self.notes[note]
+                # Add the fifth
+                elif case == 3:
+                    note = self.intervals[root] + 7
+                    if note >= 12:
+                        note -= 12
+                    note = self.notes[note]
+                dur = rd.uniform(0.0, 2.0, size=1)[0]
+                current_duration += dur
+                elements += 1
+                melody.append((note, dur))
+        return melody
+
 
 def main():
     generator = Generator(0)
+    chord_dur = [1, 0.2]
+    pause = [0.15, 1]
+    progression = [(generator.get_chord('E', 'minor'), chord_dur[0]),
+                   pause[0],
+                   (generator.get_chord('E', 'minor'), chord_dur[1]),
+                   pause[1],
+                   (generator.get_chord('E', 'minor'), chord_dur[0]),
+                   pause[0],
+                   (generator.get_chord('E', 'minor'), chord_dur[1]),
+                   pause[1],
+                   (generator.get_chord('D', 'major'), chord_dur[0]),
+                   pause[0],
+                   (generator.get_chord('D', 'major'), chord_dur[1]),
+                   pause[1],
+                   (generator.get_chord('G', 'major'), chord_dur[0]),
+                   pause[0],
+                   (generator.get_chord('G', 'major'), chord_dur[1]),
+                   pause[1],
+                   (generator.get_chord('C', 'major'),chord_dur[0]),
+                   pause[0],
+                   (generator.get_chord('C', 'major'), chord_dur[1]),
+                   pause[1],
+                   (generator.get_chord('E', 'minor'), chord_dur[0]),
+                   pause[0],
+                   (generator.get_chord('E', 'minor'), chord_dur[1]),
+                   pause[1],
+                   (generator.get_chord('E', 'minor'), chord_dur[0]),
+                   pause[0],
+                   (generator.get_chord('E', 'minor'), chord_dur[1]),
+                   pause[1],
+                   ]
+    melody = generator.get_melody(progression, 20)
 
 if __name__ == '__main__':
     main()
