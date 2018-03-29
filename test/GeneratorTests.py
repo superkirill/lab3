@@ -188,6 +188,12 @@ class TestPerformTrack(unittest.TestCase):
         generator = Generator(0)
         self.failUnlessRaises(ValueError, generator.perform, 123)
 
+class TestMix(unittest.TestCase):
+    def test_mix(self):
+        generator = Generator(0)
+        melody_1 = [('C', 1), ('G', 0.5)]
+        melody_2 = [('E', 1), ('B', 0.5)]
+        generator.mix(melody_1, melody_2)
 
 if __name__ == '__main__':
     unittest.main()
