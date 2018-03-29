@@ -1,6 +1,8 @@
 import pygame.midi
 import time
 import random
+import sys, os
+import subprocess
 from numpy import random as rd
 
 class Generator():
@@ -136,9 +138,9 @@ class Generator():
 
             Keyword arguments:
                 progression -- list of tuples and doubles where each tuple represents a chord and
-                    its duration, and doubles represent pauses between chords
+                    its duration, and doubles represent pauses between chords (default None)
 
-                max_notes -- maximum allowed numbers of notes and pauses in a melody (int > 0)
+                max_notes -- maximum allowed numbers of notes and pauses in a melody (int > 0, default 20)
             Return:
                 list of tuples and doubles, where each tuple contains a note and duration
                     and each double represents a pause
@@ -206,9 +208,9 @@ class Generator():
 
             Keyword arguments:
                 to_perform -- a list of tuples and doubles where each tuple represents a chord (a note) and
-                    its duration, and doubles represent pauses between chords (notes)
+                    its duration, and doubles represent pauses between chords (notes) (default [])
             Return:
-                True if notes or chords are played successfully
+                True -- if notes or chords are played successfully
         """
         if not (isinstance(to_perform, list) or isinstance(to_perform, tuple)):
             raise ValueError
@@ -221,6 +223,24 @@ class Generator():
                 else:
                     self.play(note=element[0], duration=element[1])
         return True
+
+    def mix(self, *args):
+        """
+            Play multiple tracks at once
+
+            Arguments:
+                *args -- tracks to be played. Each track is a list or a tuple
+                    of notes - capital letters - or chords - tuples of capital
+                    letters - and their durations (double numbers), as well as
+                    pauses between the sounds - double numbers
+            Return:
+                True -- if played successfully
+        """
+        for track in args:
+            dir_path = os.path.dirname(os.path.realpath(__file__)).replace("\\","\\\\")
+            subprocess.Popen("python \"%s\Generator.py\" %s" % (dir_path, track),
+                         shell=True,
+                         stdin=None, stdout=None, stderr=None, close_fds=True)
 
 def main():
     generator = Generator(0)
