@@ -162,5 +162,22 @@ class TestMelody(unittest.TestCase):
                        ]
         generator.get_melody(progression)
 
+    def test_get_melody_wrong_progression(self):
+        generator = Generator(0)
+        self.failUnlessRaises(ValueError, generator.get_melody, 'E')
+
+    def test_get_melody_without_progression(self):
+        generator = Generator(0)
+        self.failUnlessRaises(ValueError, generator.get_melody)
+
+    def test_get_melody_with_wrong_max_notes(self):
+        generator = Generator(0)
+        self.failUnlessRaises(ValueError, generator.get_melody, (('E','G#','B'),1), -1000)
+
+    def test_get_melody_without_progression_and_with_wrong_max_notes(self):
+        generator = Generator(0)
+        self.failUnlessRaises(ValueError, max_notes=-1000)
+
+
 if __name__ == '__main__':
     unittest.main()
