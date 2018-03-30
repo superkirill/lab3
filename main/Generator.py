@@ -133,7 +133,7 @@ class Generator():
             for chord_note in chord:
                 self.player.note_off(self.intervals[chord_note] + octave * 12, 120)
 
-    def get_melody(self, progression=None, max_notes=20):
+    def get_melody(self, progression=None, max_notes=50):
         """
             Generate melody for a give chord progression
 
@@ -238,15 +238,26 @@ class Generator():
             Return:
                 True -- if played successfully
         """
+        pos = 0
         for arg in args:
             if isinstance(arg, tuple) or isinstance(arg, list):
+                if pos % 2 != 0:
+                    raise ValueError
                 track = arg
-            else:
+                pos += 1
+            elif isinstance(arg, int):
+                if arg > 7 or arg < 1:
+                    raise ValueError
+                if pos % 2 != 1:
+                    raise ValueError
+                pos += 1
                 dir_path = os.path.dirname(os.path.realpath(__file__))
                 subprocess.Popen("python \"%s/Generator.py\" \"%s\" %d" % (dir_path, track, arg),
                                  shell=True,
                                  stdin=None, stdout=None, stderr=None, close_fds=True)
                 time.sleep(0.1)
+            else:
+                raise ValueError
 
 def main():
     generator = Generator(0)
