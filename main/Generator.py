@@ -296,7 +296,7 @@ def main():
                    pause[1],
                    ]
     melody = generator.get_melody(progression, 40)
-    generator.mix(progression, 3, melody, 5, instruments=[15,25])
+    generator.mix(progression, 3, melody, 5, instruments=[20,20])
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
