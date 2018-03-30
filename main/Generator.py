@@ -203,13 +203,14 @@ class Generator():
                 melody.append((note, dur))
         return melody
 
-    def perform(self, to_perform=[]):
+    def perform(self, to_perform=[], octave=3):
         """
             Play a sequence of notes or chords
 
             Keyword arguments:
                 to_perform -- a list of tuples and doubles where each tuple represents a chord (a note) and
                     its duration, and doubles represent pauses between chords (notes) (default [])
+                octave -- integer greater than zero and lesser than 7 representing an octave to play in
             Return:
                 True -- if notes or chords are played successfully
         """
@@ -220,9 +221,9 @@ class Generator():
                 time.sleep(element)
             else:
                 if isinstance(element[0], tuple):
-                    self.play(chord=element[0], duration=element[1])
+                    self.play(chord=element[0], duration=element[1], octave=octave)
                 else:
-                    self.play(note=element[0], duration=element[1])
+                    self.play(note=element[0], duration=element[1], octave=octave)
         return True
 
     def mix(self, *args):
@@ -237,12 +238,15 @@ class Generator():
             Return:
                 True -- if played successfully
         """
-        for track in args:
-            dir_path = os.path.dirname(os.path.realpath(__file__))
-            subprocess.Popen("python \"%s/Generator.py\" \"%s\"" % (dir_path, track),
-                         shell=True,
-                         stdin=None, stdout=None, stderr=None, close_fds=True)
-            time.sleep(0.1)
+        for arg in args:
+            if isinstance(arg, tuple) or isinstance(arg, list):
+                track = arg
+            else:
+                dir_path = os.path.dirname(os.path.realpath(__file__))
+                subprocess.Popen("python \"%s/Generator.py\" \"%s\" %d" % (dir_path, track, arg),
+                                 shell=True,
+                                 stdin=None, stdout=None, stderr=None, close_fds=True)
+                time.sleep(0.1)
 
 def main():
     generator = Generator(0)
@@ -278,12 +282,12 @@ def main():
                    pause[1],
                    ]
     melody = generator.get_melody(progression, 40)
-    generator.mix(progression, melody)
+    generator.mix(progression, 3, melody, 5)
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
         generator = Generator(0)
         track = ast.literal_eval(sys.argv[1])
-        generator.perform(track)
+        generator.perform(track, int(sys.argv[2]))
     else:
         main()
