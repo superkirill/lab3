@@ -103,7 +103,7 @@ class Generator():
         else:
             raise NotImplementedError
 
-    def play(self, note=None, chord=None, octave=3, duration=0.5):
+    def play(self, note=None, chord=None, octave=3, duration=0.5, instrument=0):
         """
             Play a chord or a note
 
@@ -113,7 +113,7 @@ class Generator():
                 duration -- double representing amount of time during which the note
                     or the chord should sound
         """
-
+        self.player.set_instrument(instrument)
         if not isinstance(octave, int) or octave < 0 or octave > 7:
             raise ValueError
         if not (isinstance(duration, float) or isinstance(duration, int)) or duration < 0:
@@ -203,7 +203,7 @@ class Generator():
                 melody.append((note, dur))
         return melody
 
-    def perform(self, to_perform=[], octave=3):
+    def perform(self, to_perform=[], octave=3, instrument=0):
         """
             Play a sequence of notes or chords
 
@@ -221,9 +221,9 @@ class Generator():
                 time.sleep(element)
             else:
                 if isinstance(element[0], tuple):
-                    self.play(chord=element[0], duration=element[1], octave=octave)
+                    self.play(chord=element[0], duration=element[1], octave=octave, instrument=instrument)
                 else:
-                    self.play(note=element[0], duration=element[1], octave=octave)
+                    self.play(note=element[0], duration=element[1], octave=octave, instrument=instrument)
         return True
 
     def mix(self, *args):
