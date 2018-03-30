@@ -203,7 +203,7 @@ class TestMix(unittest.TestCase):
         generator = Generator(0)
         melody_1 = [('C', 1), ('G', 0.5)]
         melody_2 = [('E', 1), ('B', 0.5)]
-        generator.mix(melody_1, melody_2)
+        self.failUnlessRaises(ValueError,generator.mix, melody_1, melody_2)
 
     def test_mix_select_octave(self):
         generator = Generator(0)
