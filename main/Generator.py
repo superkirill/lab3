@@ -203,7 +203,7 @@ class Generator():
                 melody.append((note, dur))
         return melody
 
-    def perform(self, to_perform=[], octave=3, instrument=0):
+    def perform(self, to_perform=[], octave=3, instrument=None):
         """
             Play a sequence of notes or chords
 
@@ -226,7 +226,7 @@ class Generator():
                     self.play(note=element[0], duration=element[1], octave=octave, instrument=instrument)
         return True
 
-    def mix(self, *args, instruments=[]):
+    def mix(self, *args, instruments=0):
         """
             Play multiple tracks at once
 
@@ -251,13 +251,27 @@ class Generator():
                     raise ValueError
                 if pos % 2 != 1:
                     raise ValueError
-                if len(instruments) < int(pos / 2)+1:
+                if isinstance(instruments, list) and len(instruments) < int(pos / 2)+1:
                     raise ValueError
-                pos += 1
+                if not isinstance(instruments, int):
+                    if not isinstance(instruments[int((pos) / 2)], int):
+                        raise ValueError
+                    elif not 0 <= instruments[int((pos) / 2)] < 80:
+                        raise ValueError
+                    else:
+                        ins = instruments[int((pos) / 2)]
+                else:
+                    if instruments == 0:
+                        ins = instruments
+                    else:
+                        raise ValueError
+
+
                 dir_path = os.path.dirname(os.path.realpath(__file__))
-                subprocess.Popen("python \"%s/Generator.py\" \"%s\" %d %d" % (dir_path, track, arg, instruments[int((pos-1)/2)]),
+                subprocess.Popen("python \"%s/Generator.py\" \"%s\" %d %d" % (dir_path, track, arg, ins),
                                  shell=True,
                                  stdin=None, stdout=None, stderr=None, close_fds=True)
+                pos += 1
                 time.sleep(0.1)
             else:
                 raise ValueError
