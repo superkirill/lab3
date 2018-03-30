@@ -188,6 +188,16 @@ class TestPerformTrack(unittest.TestCase):
         generator = Generator(0)
         self.failUnlessRaises(ValueError, generator.perform, 123)
 
+    def test_perform_with_negative_octave(self):
+        generator = Generator(0)
+        melody = [('C', 1), ('G', 0.5)]
+        self.failUnlessRaises(ValueError, generator.perform, melody, -5)
+
+    def test_perform_with_large_octave(self):
+        generator = Generator(0)
+        melody = [('C', 1), ('G', 0.5)]
+        self.failUnlessRaises(ValueError, generator.perform, melody, 999)
+
 class TestMix(unittest.TestCase):
     def test_mix(self):
         generator = Generator(0)
@@ -200,6 +210,33 @@ class TestMix(unittest.TestCase):
         melody_1 = [('C', 1), ('G', 0.5)]
         melody_2 = [('E', 1), ('B', 0.5)]
         generator.mix(melody_1, 5, melody_2, 3)
+
+    def test_mix_large_octave(self):
+        generator = Generator(0)
+        melody_1 = [('C', 1), ('G', 0.5)]
+        melody_2 = [('E', 1), ('B', 0.5)]
+        self.failUnlessRaises(ValueError, generator.mix, melody_1, 999, melody_2, 23)
+
+    def test_mix_negative_octave(self):
+        generator = Generator(0)
+        melody_1 = [('C', 1), ('G', 0.5)]
+        melody_2 = [('E', 1), ('B', 0.5)]
+        self.failUnlessRaises(ValueError, generator.mix, melody_1, -999, melody_2, -23)
+
+    def test_mix_incorrect_octave(self):
+        generator = Generator(0)
+        melody_1 = [('C', 1), ('G', 0.5)]
+        melody_2 = [('E', 1), ('B', 0.5)]
+        self.failUnlessRaises(ValueError, generator.mix, melody_1, "dfsdfs", melody_2, 'SFD')
+
+    def test_mix_wrong_arg_order(self):
+        generator = Generator(0)
+        melody_1 = [('C', 1), ('G', 0.5)]
+        melody_2 = [('E', 1), ('B', 0.5)]
+        self.failUnlessRaises(ValueError, generator.mix, 999, melody_1, melody_2, 23)
+
+
+
 
 if __name__ == '__main__':
     unittest.main()
