@@ -226,7 +226,7 @@ class Generator():
                     self.play(note=element[0], duration=element[1], octave=octave, instrument=instrument)
         return True
 
-    def mix(self, *args):
+    def mix(self, *args, instruments=[]):
         """
             Play multiple tracks at once
 
@@ -239,6 +239,7 @@ class Generator():
                 True -- if played successfully
         """
         pos = 0
+
         for arg in args:
             if isinstance(arg, tuple) or isinstance(arg, list):
                 if pos % 2 != 0:
@@ -250,9 +251,11 @@ class Generator():
                     raise ValueError
                 if pos % 2 != 1:
                     raise ValueError
+                if len(instruments) < int(pos / 2)+1:
+                    raise ValueError
                 pos += 1
                 dir_path = os.path.dirname(os.path.realpath(__file__))
-                subprocess.Popen("python \"%s/Generator.py\" \"%s\" %d" % (dir_path, track, arg),
+                subprocess.Popen("python \"%s/Generator.py\" \"%s\" %d %d" % (dir_path, track, arg, instruments[int((pos-1)/2)]),
                                  shell=True,
                                  stdin=None, stdout=None, stderr=None, close_fds=True)
                 time.sleep(0.1)
@@ -293,12 +296,12 @@ def main():
                    pause[1],
                    ]
     melody = generator.get_melody(progression, 40)
-    generator.mix(progression, 3, melody, 5)
+    generator.mix(progression, 3, melody, 5, instruments=[15,25])
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
         generator = Generator(0)
         track = ast.literal_eval(sys.argv[1])
-        generator.perform(track, int(sys.argv[2]))
+        generator.perform(track, int(sys.argv[2]), int(sys.argv[3]))
     else:
         main()
