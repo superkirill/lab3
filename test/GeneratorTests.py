@@ -198,6 +198,11 @@ class TestPerformTrack(unittest.TestCase):
         melody = [('C', 1), ('G', 0.5)]
         self.failUnlessRaises(ValueError, generator.perform, melody, 999)
 
+    def test_perform_select_instrument(self):
+        generator = Generator(0)
+        melody = [('C', 1), ('G', 0.5)]
+        self.assertEqual(generator.perform(melody, instrument=5), True)
+
 class TestMix(unittest.TestCase):
     def test_mix(self):
         generator = Generator(0)
