@@ -1,3 +1,3 @@
-# Lab practice 3
+# Verification and testing. Lab practice 3
 
 Task: generate melodies given a chord progression
