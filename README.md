@@ -1,3 +1,3 @@
-# Лабораторная 3
+# Lab practice 3
 
-Тема: генератор мелодий по заданным аккордам
+Task: generate melodies given a chord progression
